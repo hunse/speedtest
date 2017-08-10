@@ -2,7 +2,6 @@
 Basic tests for maximum flops and bandwidth of card.
 """
 import sys
-# import timeit
 import time
 
 import numpy as np
@@ -45,12 +44,11 @@ mwgsize = queue.device.max_work_group_size
 
 rng = np.random.RandomState(9)
 
-# n = int(1e6)
-# n = int(1e7)
-n = int(1e8)
+n = 2**27
+# n = 2**28
 
-# X = rng.uniform(-1, 1, size=n).astype(np.float32)
-X = np.arange(n, dtype=np.float32)
+X = rng.uniform(-1, 1, size=n).astype(np.float32)
+# X = np.arange(n, dtype=np.float32)
 clX = cl.array.Array(queue, X.shape, X.dtype)
 clY = cl.array.Array(queue, X.shape, X.dtype)
 clX.set(X)
