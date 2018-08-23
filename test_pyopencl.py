@@ -57,10 +57,9 @@ lsize = None
 gsize = (n,)
 
 # --- flops
-# ops_per_item = 2
-# ops_per_item = 128
-# ops_per_item = 1024
-ops_per_item = 4096
+### High ops/item to measure ideal flops/s
+ops_per_item = 1024
+# ops_per_item = 4096
 flops_per_call = ops_per_item * n
 bw_per_call = clX.nbytes + clY.nbytes
 
@@ -87,7 +86,7 @@ kernel = cl.Program(ctx, source).build().fn
 t = time_kernel(kernel, queue, gsize, lsize, clX.data, clY.data)
 print("Mults: %0.2f ms" % (1000 * t))
 print("  GF/s: %0.2f" % (1e-9 * flops_per_call / t))
-print("  GB/s: %0.2f" % (1e-9 * bw_per_call / t))
+# print("  GB/s: %0.2f" % (1e-9 * bw_per_call / t))
 
 
 # --- bandwidth
@@ -154,7 +153,7 @@ __kernel void fn(
 }
 """
 
-lsize = (m2, mwgsize/m2)
+lsize = (m2, mwgsize // m2)
 gsize = (m2, round_up(n2, lsize[1]))
 
 textconf = dict(np=np, m2=m2, n2=n2, lsizej=lsize[0], lsizei=lsize[1])
