@@ -13,6 +13,12 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "1"
 import numpy as np
 import tensorflow as tf
 
+print("Tensorflow version %s" % (tf.__version__,))
+
+sys_details = tf.sysconfig.get_build_info()
+print("CUDA version %s" % (sys_details["cuda_version"],))
+print("Sys details: %s" % (sys_details,))
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     print("Found %d GPU(s): %s" % (len(gpus), gpus))
